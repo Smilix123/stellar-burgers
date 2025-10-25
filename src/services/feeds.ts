@@ -28,8 +28,11 @@ export const fetchFeeds = createAsyncThunk<
   try {
     const data = await getFeedsApi();
     return data;
-  } catch (err: any) {
-    return rejectWithValue(err?.message ?? 'Ошибка загрузки ленты');
+  } catch (err) {
+    if (err && typeof err === 'object' && 'message' in err) {
+      return rejectWithValue((err as { message: string }).message);
+    }
+    return rejectWithValue('Ошибка загрузки ленты');
   }
 });
 

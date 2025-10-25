@@ -31,10 +31,11 @@ export const fetchUserOrders = createAsyncThunk<
   try {
     const data = await getOrdersApi();
     return data;
-  } catch (err: any) {
-    return rejectWithValue(
-      err?.message ?? 'Ошибка загрузки заказов пользователя'
-    );
+  } catch (err) {
+    if (err && typeof err === 'object' && 'message' in err) {
+      return rejectWithValue((err as { message: string }).message);
+    }
+    return rejectWithValue('Ошибка загрузки заказов пользователя');
   }
 });
 
@@ -45,11 +46,14 @@ export const fetchOrderByNumber = createAsyncThunk<
 >('orders/fetchByNumber', async (number, { rejectWithValue }) => {
   try {
     const data = await getOrderByNumberApi(number);
-    const orders = (data as any).orders as TOrder[] | undefined;
+    const orders = data.orders;
     if (orders && orders.length > 0) return orders[0];
     return rejectWithValue('Заказ не найден');
-  } catch (err: any) {
-    return rejectWithValue(err?.message ?? 'Ошибка получения заказа');
+  } catch (err) {
+    if (err && typeof err === 'object' && 'message' in err) {
+      return rejectWithValue((err as { message: string }).message);
+    }
+    return rejectWithValue('Ошибка получения заказа');
   }
 });
 

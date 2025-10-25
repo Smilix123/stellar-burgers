@@ -33,9 +33,12 @@ export const fetchProfile = createAsyncThunk<
 >('profile/fetch', async (_, { rejectWithValue }) => {
   try {
     const data = await getUserApi();
-    return (data as any).user as TUser;
-  } catch (err: any) {
-    return rejectWithValue(err?.message ?? 'Ошибка получения данных профиля');
+    return data.user;
+  } catch (err) {
+    if (err && typeof err === 'object' && 'message' in err) {
+      return rejectWithValue((err as { message: string }).message);
+    }
+    return rejectWithValue('Ошибка получения данных профиля');
   }
 });
 
@@ -50,8 +53,11 @@ export const registerUser = createAsyncThunk<
       localStorage.setItem('refreshToken', data.refreshToken);
     if (data.accessToken) setCookie('accessToken', data.accessToken);
     return data.user;
-  } catch (err: any) {
-    return rejectWithValue(err?.message ?? 'Ошибка регистрации');
+  } catch (err) {
+    if (err && typeof err === 'object' && 'message' in err) {
+      return rejectWithValue((err as { message: string }).message);
+    }
+    return rejectWithValue('Ошибка регистрации');
   }
 });
 
@@ -66,8 +72,11 @@ export const loginUser = createAsyncThunk<
       localStorage.setItem('refreshToken', data.refreshToken);
     if (data.accessToken) setCookie('accessToken', data.accessToken);
     return data.user;
-  } catch (err: any) {
-    return rejectWithValue(err?.message ?? 'Ошибка авторизации');
+  } catch (err) {
+    if (err && typeof err === 'object' && 'message' in err) {
+      return rejectWithValue((err as { message: string }).message);
+    }
+    return rejectWithValue('Ошибка входа');
   }
 });
 
@@ -79,8 +88,11 @@ export const logoutUser = createAsyncThunk<void, void, { rejectValue: string }>(
       localStorage.removeItem('refreshToken');
       setCookie('accessToken', '');
       return;
-    } catch (err: any) {
-      return rejectWithValue(err?.message ?? 'Ошибка выхода');
+    } catch (err) {
+      if (err && typeof err === 'object' && 'message' in err) {
+        return rejectWithValue((err as { message: string }).message);
+      }
+      return rejectWithValue('Ошибка выхода');
     }
   }
 );
@@ -93,10 +105,11 @@ export const forgotPassword = createAsyncThunk<
   try {
     await forgotPasswordApi(payload);
     return true;
-  } catch (err: any) {
-    return rejectWithValue(
-      err?.message ?? 'Ошибка запроса восстановления пароля'
-    );
+  } catch (err) {
+    if (err && typeof err === 'object' && 'message' in err) {
+      return rejectWithValue((err as { message: string }).message);
+    }
+    return rejectWithValue('Ошибка восстановления пароля');
   }
 });
 
@@ -108,8 +121,11 @@ export const resetPassword = createAsyncThunk<
   try {
     await resetPasswordApi(payload);
     return true;
-  } catch (err: any) {
-    return rejectWithValue(err?.message ?? 'Ошибка сброса пароля');
+  } catch (err) {
+    if (err && typeof err === 'object' && 'message' in err) {
+      return rejectWithValue((err as { message: string }).message);
+    }
+    return rejectWithValue('Ошибка сброса пароля');
   }
 });
 
@@ -121,8 +137,11 @@ export const updateUser = createAsyncThunk<
   try {
     const data = await updateUserApi(payload);
     return data.user;
-  } catch (err: any) {
-    return rejectWithValue(err?.message ?? 'Ошибка обновления профиля');
+  } catch (err) {
+    if (err && typeof err === 'object' && 'message' in err) {
+      return rejectWithValue((err as { message: string }).message);
+    }
+    return rejectWithValue('Ошибка обновления профиля');
   }
 });
 

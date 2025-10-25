@@ -23,8 +23,11 @@ export const createOrder = createAsyncThunk<
   try {
     const data = await orderBurgerApi(ingredientsId);
     return data.order;
-  } catch (err: any) {
-    return rejectWithValue(err?.message ?? 'Ошибка создания заказа');
+  } catch (err) {
+    if (err && typeof err === 'object' && 'message' in err) {
+      return rejectWithValue((err as { message: string }).message);
+    }
+    return rejectWithValue('Ошибка создания заказа');
   }
 });
 
