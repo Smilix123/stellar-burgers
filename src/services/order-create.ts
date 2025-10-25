@@ -48,7 +48,7 @@ export const orderCreateSlice = createSlice({
       createOrder.fulfilled,
       (state, action: PayloadAction<TOrder>) => {
         state.loading = false;
-        state.Order = null;
+        state.Order = action.payload;
       }
     );
     builder.addCase(createOrder.rejected, (state, action) => {
