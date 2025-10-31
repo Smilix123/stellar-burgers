@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TConstructorIngredient, TIngredient } from '@utils-types';
 import { v4 } from 'uuid';
-import { RootState } from './store';
+import { RootState } from '@store';
 
 interface BurgerConstructorState {
   selectedIngredients: TConstructorIngredient[];
@@ -47,3 +47,5 @@ export const {
 
 export const selectConstructorIngredients = (state: RootState) =>
   state.burgerConstructor.selectedIngredients;
+
+export default burgerConstructorSlice.reducer;

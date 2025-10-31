@@ -1,7 +1,7 @@
 import { TOrder } from '@utils-types';
 import { getOrderByNumberApi, getOrdersApi } from '@api';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from './store';
+import { RootState } from '@store';
 
 interface OrdersState {
   list: TOrder[];
@@ -117,3 +117,5 @@ export const selectCurrentOrderLoading = (state: RootState) =>
   state.orders.currentLoading;
 export const selectCurrentOrderError = (state: RootState) =>
   state.orders.currentError;
+
+export default ordersSlice.reducer;

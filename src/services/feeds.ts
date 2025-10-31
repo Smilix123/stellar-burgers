@@ -1,7 +1,7 @@
 import { getFeedsApi } from '@api';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TOrder } from '@utils-types';
-import { RootState } from './store';
+import { RootState } from '@store';
 
 interface FeedsState {
   data: {
@@ -76,3 +76,4 @@ export const selectFeedsLoading = (state: RootState) => state.feeds.loading;
 export const selectFeedsError = (state: RootState) => state.feeds.error;
 
 export const { clearFeedsError } = feedsSlice.actions;
+export default feedsSlice.reducer;

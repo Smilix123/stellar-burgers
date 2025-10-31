@@ -12,7 +12,7 @@ import {
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TUser } from '@utils-types';
 import { setCookie } from '../utils/cookie';
-import { RootState } from './store';
+import { RootState } from '@store';
 
 interface ProfileState {
   user: TUser | null;
@@ -171,7 +171,7 @@ export const profileSlice = createSlice({
       }
     );
     builder.addCase(fetchProfile.rejected, (state, action) => {
-      state.loading = true;
+      state.loading = false;
       state.error =
         action.payload ?? action.error.message ?? 'Ошибка загрузки данных';
     });
@@ -277,3 +277,5 @@ export const selectUserProfile = (state: RootState) => state.profile.user;
 export const selectUserProfileLoading = (state: RootState) =>
   state.profile.loading;
 export const selectUserProfileError = (state: RootState) => state.profile.error;
+
+export default profileSlice.reducer;
