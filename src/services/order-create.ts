@@ -1,7 +1,7 @@
 import { orderBurgerApi } from '@api';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TOrder } from '@utils-types';
-import { RootState } from './store';
+import { RootState } from '@store';
 
 interface OrderCreateState {
   Order: TOrder | null;
@@ -70,3 +70,5 @@ export const selectCreateOrderLoading = (state: RootState) =>
   state.orderCreate.loading;
 export const selectCreateOrderError = (state: RootState) =>
   state.orderCreate.error;
+
+export default orderCreateSlice.reducer;
